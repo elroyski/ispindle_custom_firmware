@@ -881,25 +881,65 @@ void requestTemp()
 
 void initDS18B20()
 {
+  CONSOLE(F("Diagnostyka: "));
+  CONSOLE(F("Wolna pamięć: "));
+  CONSOLELN(ESP.getFreeHeap());
+  CONSOLE(F("Uptime (ms): "));
+  CONSOLELN(millis());
+  
+  CONSOLE(F("Inicjalizacja DS18B20... "));
+  
   if (myData.OWpin == -1)
   {
+    CONSOLELN(F("Nieznany pin, szukam czujnika..."));
     myData.OWpin = detectTempSensor(OW_PINS);
     if (myData.OWpin == -1)
     {
       CONSOLELN(F("ERROR: cannot find a OneWire Temperature Sensor!"));
       return;
     }
+    CONSOLE(F("Znaleziono czujnik na pinie: "));
+    CONSOLELN(myData.OWpin);
   }
+  
+  CONSOLE(F("Konfiguracja DS18B20 na pinie: "));
+  CONSOLELN(myData.OWpin);
+  
+  // Sprawdzenie stanu pinu przed inicjalizacją
+  pinMode(myData.OWpin, INPUT);
+  CONSOLE(F("Stan pinu przed reset: "));
+  CONSOLELN(digitalRead(myData.OWpin));
+  
   pinMode(myData.OWpin, OUTPUT);
   digitalWrite(myData.OWpin, LOW);
   delay(100);
+  
+  CONSOLE(F("Tworzenie instancji OneWire... "));
+  if (oneWire != NULL) {
+    CONSOLELN(F("Poprzednia instancja OneWire istnieje - usuwam"));
+    delete oneWire;
+    oneWire = NULL;
+  }
+  
   oneWire = new OneWire(myData.OWpin);
+  
+  if (oneWire == NULL) {
+    CONSOLELN(F("BŁĄD: Nie udało się zaalokować pamięci dla OneWire!"));
+    CONSOLE(F("Wolna pamięć: "));
+    CONSOLELN(ESP.getFreeHeap());
+    return;
+  } else {
+    CONSOLELN(F("OK"));
+  }
+  
   DS18B20 = DallasTemperature(oneWire);
   DS18B20.begin();
 
   bool device = DS18B20.getAddress(tempDeviceAddress, 0);
+  
   if (!device)
   {
+    CONSOLELN(F("Nie wykryto urządzenia po adresie, próbuję ponownie wykryć czujnik..."));
     myData.OWpin = detectTempSensor(OW_PINS);
     if (myData.OWpin == -1)
     {
@@ -908,17 +948,59 @@ void initDS18B20()
     }
     else
     {
-      delete oneWire;
+      CONSOLE(F("Znaleziono czujnik na innym pinie: "));
+      CONSOLELN(myData.OWpin);
+      pinMode(myData.OWpin, OUTPUT);
+      digitalWrite(myData.OWpin, LOW);
+      delay(100);
+      
+      if (oneWire != NULL) {
+        delete oneWire;
+        oneWire = NULL;
+      }
+      
       oneWire = new OneWire(myData.OWpin);
       DS18B20 = DallasTemperature(oneWire);
       DS18B20.begin();
-      DS18B20.getAddress(tempDeviceAddress, 0);
+      device = DS18B20.getAddress(tempDeviceAddress, 0);
+      
+      if (!device) {
+        CONSOLELN(F("BŁĄD: Nadal nie mogę wykryć adresu czujnika DS18B20!"));
+        CONSOLELN(F("Sprawdź podłączenie fizyczne lub wymień czujnik"));
+      } else {
+        CONSOLELN(F("Adres czujnika DS18B20 znaleziony po ponownej próbie"));
+      }
     }
+  }
+  else {
+    CONSOLELN(F("Znaleziono adres czujnika DS18B20"));
+    CONSOLE(F("Adres urządzenia: "));
+    for (uint8_t i = 0; i < 8; i++) {
+      CONSOLE(tempDeviceAddress[i], HEX);
+      CONSOLE(F(" "));
+    }
+    CONSOLELN();
   }
 
   DS18B20.setWaitForConversion(false);
   DS18B20.setResolution(tempDeviceAddress, RESOLUTION);
+  CONSOLE(F("Ustawiona rozdzielczość: "));
+  CONSOLELN(RESOLUTION);
+  
+  // Spróbuj pierwszy odczyt
   requestTemp();
+  delay(OWinterval);
+  float firstTemp = DS18B20.getTempCByIndex(0);
+  CONSOLE(F("Pierwszy odczyt temperatury: "));
+  if (firstTemp == DEVICE_DISCONNECTED_C || firstTemp == 85.0) {
+    CONSOLELN(F("BŁĄD - nie udało się odczytać temperatury!"));
+  } else {
+    CONSOLE(firstTemp);
+    CONSOLELN(F(" °C - OK"));
+  }
+  
+  CONSOLE(F("Wolna pamięć po inicjalizacji DS18B20: "));
+  CONSOLELN(ESP.getFreeHeap());
 }
 
 bool isDS18B20ready()
@@ -1032,21 +1114,59 @@ float getTemperature(bool block = false)
     delay(10);
   DSreqTime = 0;
 
+  // Diagnostyka przed odczytem
+  CONSOLE(F("getTemperature - Wolna pamięć: "));
+  CONSOLELN(ESP.getFreeHeap());
+  CONSOLE(F("Stan magistrali OneWire: "));
+  
+  if (oneWire == NULL) {
+    CONSOLELN(F("ERROR: oneWire jest NULL!"));
+    return t;
+  }
+  
+  // Sprawdź stan magistrali
+  bool resetStatus = oneWire->reset();
+  CONSOLE(F("Reset: "));
+  CONSOLELN(resetStatus ? "OK" : "BŁĄD");
+  
   t = DS18B20.getTempCByIndex(0);
 
   if (t == DEVICE_DISCONNECTED_C || // DISCONNECTED
       t == 85.0)                    // we read 85 uninitialized
   {
-    CONSOLELN(F("ERROR: OW DISCONNECTED"));
+    CONSOLE(F("ERROR: OW DISCONNECTED - Wartość odczytu: "));
+    CONSOLELN(t);
+    CONSOLE(F("Pin czujnika: "));
+    CONSOLELN(myData.OWpin);
+    
+    // Sprawdź stan pinu
+    pinMode(myData.OWpin, INPUT);
+    CONSOLE(F("Stan pinu po błędzie: "));
+    CONSOLELN(digitalRead(myData.OWpin));
+    
+    // Spróbujmy odczytać temperaturę z MPU6050 jako alternatywę
+    float accTemp = accelgyro.getTemperature() / 340.00 + 36.53;
+    CONSOLE(F("Temperatura z MPU6050: "));
+    CONSOLELN(accTemp);
+    
     pinMode(myData.OWpin, OUTPUT);
     digitalWrite(myData.OWpin, LOW);
     delay(100);
     oneWire->reset();
-
-    CONSOLELN(F("OW Retry"));
+    
+    CONSOLELN(F("OW Retry - Próba ponownej inicjalizacji DS18B20"));
     initDS18B20();
     delay(OWinterval);
-    t = getTemperature(false);
+    t = DS18B20.getTempCByIndex(0);
+    
+    // Sprawdź czy udało się odczytać temperaturę po ponownej inicjalizacji
+    if (t == DEVICE_DISCONNECTED_C || t == 85.0) {
+      CONSOLELN(F("Ponowna próba nieudana, używam temperatury z MPU6050"));
+      t = accTemp;
+    } else {
+      CONSOLE(F("Udało się odczytać temperaturę z DS18B20 po ponownej próbie: "));
+      CONSOLELN(t);
+    }
   }
 
   return t;
@@ -1253,7 +1373,17 @@ void setup()
 
   CONSOLELN(F("\nFW " FIRMWAREVERSION));
   CONSOLELN(ESP.getSdkVersion());
-
+  
+  // Diagnostyka stanu początkowego
+  CONSOLE(F("Początkowa wolna pamięć: "));
+  CONSOLELN(ESP.getFreeHeap());
+  CONSOLE(F("Reset reason: "));
+  CONSOLELN(ESP.getResetReason());
+  CONSOLE(F("Flash size: "));
+  CONSOLELN(ESP.getFlashChipSize());
+  CONSOLE(F("CPU freq: "));
+  CONSOLELN(ESP.getCpuFreqMHz());
+  
   sleepManager();
 
   bool validConf = readConfig();
