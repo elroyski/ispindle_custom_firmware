@@ -245,7 +245,7 @@ void WiFiManager::handleUpdating()
   else if (upload.status == UPLOAD_FILE_ABORTED)
   {
     Update.end();
-    CONSOLE("Update was aborted");
+    CONSOLELN("Update was aborted");
   }
   delay(0);
 }
@@ -976,30 +976,31 @@ void WiFiManager::handleiSpindel()
   page += FPSTR(HTTP_HEADER_END);
   page += F("<h1>Informacje</h1><hr>");
   page += F("<h2><table>");
-  page += F("<tr><td><strong>Nachylenie:</strong></td><td>");
+  page += F("<tr><td>Pochylenie:</td><td>");
   page += Tilt;
   page += F("&deg;</td></tr>");
-  page += F("<tr><td><strong>Temperatura:</strong></td><td>");
+  page += F("<tr><td>Temperatura:</td><td>");
   page += scaleTemperatureFromC(Temperatur, myData.tempscale);
   page += F("&deg;");
   page += tempScaleLabel(myData.tempscale);
   page += F("</td></tr>");
-  page += F("<tr><td><strong>Bateria:</strong></td><td>");
+  page += F("<tr><td>Bateria:</td><td>");
   page += Volt;
   page += F("V</td></tr>");
-  page += F("<tr><td><strong>Gęstość:</strong></td><td>");
+  page += F("<tr><td>Gęstość:</td><td>");
   page += String(Gravity, 3);
   page += F("</td></tr>");
   page += F("</table></h2>");
   page += F("<hr><dl>");
   page += F("<dt><h3>Firmware</h3></dt>");
-  page += F("<dd>Wersja: ");
-  page += FIRMWAREVERSION;
-  page += F(" - Spolszczony interfejs</dd>");
-  page += F("<dd>Data: ");
-  page += __DATE__ " " __TIME__;
-  page +=
-      F("</dd></dl><br>Aktualizacja firmware:<br><a href='https://github.com/elroyski/ispindle_custom_firmware'>github.com/elroyski/ispindle_custom_firmware</a> - wersja piwo.org<br><a href='https://github.com/universam1'>github.com/universam1</a> - oryginalna wersja<hr>");
+  page += F("<dd>Wersja: 7.3.3</dd>");
+  page += F("<dd>Data: Mar 30 2025 18:07:31</dd>");
+  page += F("</dl><br>");
+  page += F("Aktualizacja firmware:<br>");
+  page += F("<a href='https://github.com/universam1'>github.com/universam1</a><br>");
+  page += F("Wersja polska piwo.org:<br>");
+  page += F("<a href='https://github.com/elroyski/ispindle_custom_firmware/releases'>github.com/elroyski</a><br>");
+  page += F("Plik firmware.bin możesz pobrać <a href='https://github.com/elroyski/ispindle_custom_firmware/releases/download/v7.3.3-pl/firmware.bin'>tutaj</a><hr>");
   page += F("</dl>");
   page += FPSTR(HTTP_END);
 
@@ -1020,32 +1021,32 @@ void WiFiManager::handleMnt()
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += FPSTR(HTTP_HEADER_END);
-  page += F("<h2>Kalibracja przechyłu</h2><br>Przed przystąpieniem do kalibracji upewnij się, że iSpindel jest wypoziomowany, "
-            "dokładnie na 0&deg; w poziomie i pionie, zgodnie z tym obrazkiem:<br>");
+  page += F("<h2>Kalibracja offsetu</h2><br>Przed kalibracją upewnij się, że iSpindel jest wypoziomowany, "
+            "dokładnie pod kątem 0&deg; w poziomie i w pionie, zgodnie z obrazkiem:<br>");
   page += FPSTR(HTTP_ISPINDEL_IMG);
-  page += F("<br><form action='/offset' method='get'><button class='btn'>Kalibruj</button></form><br/>");
+  page += F("<br><form action='/offset' method='get'><button class='btn'>kalibruj</button></form><br/>");
   page += F("<hr><h2>Aktualizacja firmware</h2><br>Aktualizacje firmware:<br><a "
-            "href='https://github.com/elroyski/ispindle_custom_firmware'>github.com/elroyski/ispindle_custom_firmware</a> - wersja piwo.org<br><a href='https://github.com/universam1'>github.com/universam1</a> - oryginalna wersja");
-  page += F("<br>Aktualnie zainstalowany firmware:<br><dl>");
+            "href='https://github.com/universam1'>github.com/universam1</a>");
+  page += F("Aktualnie zainstalowany firmware:<br><dl>");
   page += F("<dd>Wersja: ");
   page += FIRMWAREVERSION;
-  page += F(" - wersja piwo.org</dd>");
+  page += F("</dd>");
   page += F("<dd>Data: ");
   page += __DATE__ " " __TIME__;
   page += F("</dd></dl><br>");
   page += F("<form method='POST' action='/update' enctype='multipart/form-data'>"
             "<input type='file' name='update'><br>"
-            "<input type='submit' class='btn' value='Aktualizuj'></form>");
+            "<input type='submit' class='btn' value='aktualizuj'></form>");
 
-  page += F("<hr><h2>Przywrócenie ustawień fabrycznych</h2><br>Wszystkie ustawienia zostaną usunięte");
-  page += F("<br><form action='/reset' method='get'><button class='btn'>Reset fabryczny</button></form><br/>");
+  page += F("<hr><h2>Reset fabryczny</h2><br>Wszystkie ustawienia zostaną usunięte");
+  page += F("<br><form action='/reset' method='get'><button class='btn'>reset fabryczny</button></form><br/>");
 
   page += F("<hr><h2>Kalibracja napięcia baterii</h2><br>"
             "Zmierz aktualne napięcie baterii, aby obliczyć współczynnik konwersji<br><dl>");
   page += F("<form method='POST' action='/calibrateVref'>"
             "<div style='display:flex justify-content: flex-end, center, space-between, space-around'>"
-            "Obecnie:<input type=number step=0.01 min=2.50 max=4.30 value=3.70 name='Vref'>Volt</div><br>"
-            "<input type='submit' class='btn' value='Ustaw napięcie'></form>");
+            "aktualnie:<input type=number step=0.01 min=2.50 max=4.30 value=3.70 name='Vref'>Volt</div><br>"
+            "<input type='submit' class='btn' value='ustaw napięcie'></form>");
   page += FPSTR(HTTP_END);
 
   server->send(200, "text/html", page);
@@ -1066,17 +1067,17 @@ void WiFiManager::handleOffset()
   header();
 
   String page = FPSTR(HTTP_HEADER);
-  page.replace("{v}", "Kalibracja przechyłu");
+  page.replace("{v}", "Kalibracja offsetu");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
 
   page += FPSTR(HTTP_HEADER_END);
   page += F("<META HTTP-EQUIV='refresh' CONTENT='6;url=/iSpindel'> \
-  <h1>Kalibracja przechyłu</h1><hr> \
+  <h1>Kalibracja offsetu</h1><hr> \
   <table><tr><td> \
-  ...kalibracja w toku...<br><h2>NIE RUSZAJ ANI NIE POTRZĄSAJ!</h2><br> \
-  Procedura zajmuje kilka sekund. Po zakończeniu niebieska dioda LED zmieni się z ciągłej na migającą \
+  ...kalibracja w toku...<br><h2>NIE RUSZAJ I NIE POTRZĄSAJ!</h2><br> \
+  Kalibracja trwa kilka sekund. Po zakończeniu niebieska dioda LED zmieni się z ciągłego świecenia na miganie. \
   </td></tr></table>");
 
   page += FPSTR(HTTP_END);
