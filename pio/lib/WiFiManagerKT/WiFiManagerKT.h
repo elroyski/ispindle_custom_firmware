@@ -40,7 +40,6 @@ const char HTTP_STYLE[] PROGMEM = "<style>.c{text-align: center;} div,input{padd
 const char HTTP_SCRIPT[] PROGMEM = "<script>function c(l){document.getElementById('s').value=l.innerText||l.textContent;document.getElementById('p').focus();}</script>";
 
 const char HTTP_HEAD_END[] PROGMEM = "</head><body><div style='text-align:left;display:inline-block;min-width:260px;'>";
-const char HTTP_HEADER_END[] PROGMEM = "</head><body><div style='text-align:left;display:inline-block;min-width:260px;'>";
 const char HTTP_PORTAL_OPTIONS[] PROGMEM = "<form action=\"/wifi\" method=\"get\"><button>Konfiguracja WiFi</button></form><br/><form action=\"/0wifi\" method=\"get\"><button>Konfiguracja WiFi (bez skanowania)</button></form><br/><form action=\"/i\" method=\"get\"><button>Informacje</button></form><br/><form action=\"/r\" method=\"post\"><button>Reset</button></form>";
 const char HTTP_ITEM[] PROGMEM = "<div><a href=\"#p\" onclick=\"c(this)\">{v}</a>&nbsp;<span class=\"q {i}\">{r}%</span></div>";
 const char JSON_ITEM[] PROGMEM = "{\"SSID\":\"{v}\", \"Encryption\":{i}, \"Quality\":\"{r}\"}";

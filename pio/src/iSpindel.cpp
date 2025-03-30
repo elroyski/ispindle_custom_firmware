@@ -1366,6 +1366,38 @@ bool connectBackupCredentials()
     return true;
 }
 
+// Definicje brakujących stałych
+#define TYPE_HIDDEN "type=\"hidden\""
+#define TYPE_NUMBER "type=\"number\" min=\"0\" step=\"1\""
+#define TYPE_CHECKBOX "type=\"checkbox\""
+#define TYPE_CHECKBOX_CHECKED "type=\"checkbox\" checked=\"checked\""
+
+// Definicje list wyboru
+const char HTTP_API_LIST[] = "<select id=\"selAPI\" onchange=\"document.getElementById('selAPI').value = document.getElementById('selAPI').options[document.getElementById('selAPI').selectedIndex].value\">"
+"<option value=\"0\">Ubidots</option>"
+"<option value=\"1\">CraftBeerPi</option>"
+"<option value=\"2\">HTTP</option>"
+"<option value=\"3\">TControl</option>"
+"<option value=\"4\">FHEM</option>"
+"<option value=\"5\">TCP</option>"
+"<option value=\"6\">iSpindel.de</option>"
+"<option value=\"7\">MQTT</option>"
+"<option value=\"8\">Blynk</option>"
+"<option value=\"9\">BrewPiLess</option>"
+"<option value=\"10\" disabled>Thingspeak</option>"
+"<option value=\"11\">InfluxDB 2</option>"
+"<option value=\"12\">InfluxDB</option>"
+"<option value=\"13\">Prometheus</option>"
+"<option value=\"14\">Home Assistant</option>"
+"<option value=\"15\">Webhook</option>"
+"</select>";
+
+const char HTTP_TEMPSCALE_LIST[] = "<select id=\"selTempscale\" onchange=\"document.getElementById('selTempscale').value = document.getElementById('selTempscale').options[document.getElementById('selTempscale').selectedIndex].value\">"
+"<option value=\"0\">Celsius</option>"
+"<option value=\"1\">Fahrenheit</option>"
+"<option value=\"2\">Kelvin</option>"
+"</select>";
+
 void setup()
 {
 

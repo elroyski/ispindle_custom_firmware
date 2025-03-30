@@ -22,8 +22,8 @@
 
 MPUOffset offset;
 
-// Dodaję brakujący nagłówek HTTP_HEADER, który jest używany w kodzie
-const char HTTP_HEADER[] PROGMEM = "<!DOCTYPE html><html lang=\"pl\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no\"/><title>{v}</title>";
+// Definicja nagłówka HTTP_HEAD do użycia w kodzie
+const char HTTP_HEAD[] PROGMEM = "<!DOCTYPE html><html lang=\"pl\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no\"/><title>{v}</title>";
 
 WiFiManagerParameter::WiFiManagerParameter(const char *custom)
 {
@@ -260,12 +260,12 @@ void WiFiManager::handleUpdateDone()
   { // If caprive portal redirect instead of displaying the page.
     return;
   }
-  String page = FPSTR(HTTP_HEADER);
+  String page = FPSTR(HTTP_HEAD);
   page.replace("{v}", "Options");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
-  page += FPSTR(HTTP_HEADER_END);
+  page += FPSTR(HTTP_HEAD_END);
   page += "<h1>";
   page += _apName;
   page += "</h1>";
@@ -498,7 +498,7 @@ uint8_t WiFiManager::waitForConnectResult()
 
 //Convenient for debugging but wasteful of program space.
 //Remove if short of space
-char *WiFiManager::getStatus(int status)
+const char* WiFiManager::getStatus(int status)
 {
   switch (status)
   {
@@ -837,12 +837,12 @@ void WiFiManager::handleWifiSave()
     optionalIPFromString(&_sta_static_sn, sn.c_str());
   }
 
-  String page = FPSTR(HTTP_HEADER);
+  String page = FPSTR(HTTP_HEAD);
   page.replace("{v}", "Credentials Saved");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
-  page += FPSTR(HTTP_HEADER_END);
+  page += FPSTR(HTTP_HEAD_END);
   page += FPSTR(HTTP_SAVED);
   page.replace("{v}", _apName);
   page.replace("{x}", _ssid);
@@ -859,12 +859,12 @@ void WiFiManager::handleServerClose()
 {
   DEBUG_WM(F("Server Close"));
   header();
-  String page = FPSTR(HTTP_HEADER);
+  String page = FPSTR(HTTP_HEAD);
   page.replace("{v}", "Close Server");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
-  page += FPSTR(HTTP_HEADER_END);
+  page += FPSTR(HTTP_HEAD_END);
   page += F("<div class='msg'>");
   page += F("My network is <strong>");
   page += WiFi.SSID();
@@ -884,12 +884,12 @@ void WiFiManager::handleInfo()
 {
   DEBUG_WM(F("Info"));
   header();
-  String page = FPSTR(HTTP_HEADER);
+  String page = FPSTR(HTTP_HEAD);
   page.replace("{v}", "Info");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
-  page += FPSTR(HTTP_HEADER_END);
+  page += FPSTR(HTTP_HEAD_END);
   page += F("<h2>WiFi Information</h2>");
   reportStatus(page);
   page += F("<h3>Device Data</h3>");
@@ -970,13 +970,13 @@ void WiFiManager::handleiSpindel()
   // we reset the timeout
   _configPortalStart = millis();
 
-  String page = FPSTR(HTTP_HEADER);
+  String page = FPSTR(HTTP_HEAD);
   page.replace("{v}", "Informacje");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
   page += F("<META HTTP-EQUIV='refresh' CONTENT='2'>");
-  page += FPSTR(HTTP_HEADER_END);
+  page += FPSTR(HTTP_HEAD_END);
   page += F("<h1>Informacje</h1><hr>");
   page += F("<h2><table>");
   page += F("<tr><td>Pochylenie:</td><td>");
@@ -1020,11 +1020,11 @@ void WiFiManager::handleMnt()
 
   // we reset the timeout
   _configPortalStart = millis();
-  String page = FPSTR(HTTP_HEADER);
+  String page = FPSTR(HTTP_HEAD);
   page.replace("{v}", "Konserwacja");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
-  page += FPSTR(HTTP_HEADER_END);
+  page += FPSTR(HTTP_HEAD_END);
   page += F("<h2>Kalibracja offsetu</h2><br>Przed kalibracją upewnij się, że iSpindel jest wypoziomowany, "
             "dokładnie pod kątem 0&deg; w poziomie i w pionie, zgodnie z obrazkiem:<br>");
   page += FPSTR(HTTP_ISPINDEL_IMG);
@@ -1070,13 +1070,13 @@ void WiFiManager::handleOffset()
 
   header();
 
-  String page = FPSTR(HTTP_HEADER);
+  String page = FPSTR(HTTP_HEAD);
   page.replace("{v}", "Kalibracja offsetu");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
 
-  page += FPSTR(HTTP_HEADER_END);
+  page += FPSTR(HTTP_HEAD_END);
   page += F("<META HTTP-EQUIV='refresh' CONTENT='6;url=/iSpindel'> \
   <h1>Kalibracja offsetu</h1><hr> \
   <table><tr><td> \
@@ -1172,12 +1172,12 @@ void WiFiManager::handleReset()
 {
   DEBUG_WM(F("Reset"));
   header();
-  String page = FPSTR(HTTP_HEADER);
+  String page = FPSTR(HTTP_HEAD);
   page.replace("{v}", "WiFi Information");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
-  page += FPSTR(HTTP_HEADER_END);
+  page += FPSTR(HTTP_HEAD_END);
   page += F("Module will reset in a few seconds.");
   page += FPSTR(HTTP_END);
   server->send(200, "text/html", page);
@@ -1203,12 +1203,12 @@ void WiFiManager::handleCalibrateVref()
   float factor = calibrateToVref(measuredVref);
 
   header();
-  String page = FPSTR(HTTP_HEADER);
+  String page = FPSTR(HTTP_HEAD);
   page.replace("{v}", "Voltage Reference");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
-  page += FPSTR(HTTP_HEADER_END);
+  page += FPSTR(HTTP_HEAD_END);
   page += F("<div class='msg'>");
   page += F("Calculated conversion factor for<br>");
   page += F("Voltage: <strong>");
