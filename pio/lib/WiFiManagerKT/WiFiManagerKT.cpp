@@ -997,10 +997,11 @@ void WiFiManager::handleiSpindel()
   page += F("<dd>Data: Mar 30 2025 18:07:31</dd>");
   page += F("</dl><br>");
   page += F("Aktualizacja firmware:<br>");
-  page += F("<a href='https://github.com/universam1'>github.com/universam1</a><br>");
-  page += F("Wersja polska piwo.org:<br>");
+  page += F("<a href='https://github.com/universam1'>github.com/universam1</a><br><br>");
+  page += F("<dt><h3>Wersja polska piwo.org</h3></dt>");
+  page += F("<dd>Wersja: 1.0</dd>");
   page += F("<a href='https://github.com/elroyski/ispindle_custom_firmware/releases'>github.com/elroyski</a><br>");
-  page += F("Plik firmware.bin możesz pobrać <a href='https://github.com/elroyski/ispindle_custom_firmware/releases/download/v7.3.3-pl/firmware.bin'>tutaj</a><hr>");
+  page += F("Plik firmware.bin możesz pobrać <a href='https://github.com/elroyski/ispindle_custom_firmware/releases/download/v1.0/firmware.bin'>tutaj</a><hr>");
   page += F("</dl>");
   page += FPSTR(HTTP_END);
 
