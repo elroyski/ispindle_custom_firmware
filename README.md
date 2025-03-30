@@ -47,7 +47,7 @@ Projekt wykorzystuje PlatformIO jako środowisko programistyczne. Aby skompilowa
 ## Jak skonfigurować iSpindel?
 
 1. Po pierwszym uruchomieniu iSpindel utworzy sieć WiFi o nazwie podobnej do "iSpindel123"
-2. Połącz się z tą siecią hasło to "12345678"
+2. Połącz się z tą siecią (nie wymaga hasła)
 3. W przeglądarce otwórz adres `http://192.168.4.1`
 4. Skonfiguruj urządzenie według potrzeb (dane WiFi, serwer docelowy, interwał pomiarów)
 
