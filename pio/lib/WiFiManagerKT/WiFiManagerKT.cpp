@@ -22,6 +22,9 @@
 
 MPUOffset offset;
 
+// Dodaję brakujący nagłówek HTTP_HEADER, który jest używany w kodzie
+const char HTTP_HEADER[] PROGMEM = "<!DOCTYPE html><html lang=\"pl\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no\"/><title>{v}</title>";
+
 WiFiManagerParameter::WiFiManagerParameter(const char *custom)
 {
   _id = NULL;
@@ -608,12 +611,12 @@ void WiFiManager::handleRoot()
     return;
   }
   header();
-  String page = FPSTR(HTTP_HEADER);
+  String page = FPSTR(HTTP_HEAD);
   page.replace("{v}", "Options");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
-  page += FPSTR(HTTP_HEADER_END);
+  page += FPSTR(HTTP_HEAD_END);
   page += "<h2>";
   page += _apName;
   if (WiFi.SSID() != "")
@@ -644,12 +647,12 @@ void WiFiManager::handleRoot()
 void WiFiManager::handleWifi()
 {
   header();
-  String page = FPSTR(HTTP_HEADER);
+  String page = FPSTR(HTTP_HEAD);
   page.replace("{v}", "Konfiguracja ESP");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
-  page += FPSTR(HTTP_HEADER_END);
+  page += FPSTR(HTTP_HEAD_END);
   page += F("<h2>Konfiguracja</h2>");
   //Print list of WiFi networks that were found in earlier scan
   if (numberOfNetworks == 0)
