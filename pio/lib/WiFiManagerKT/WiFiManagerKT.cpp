@@ -968,38 +968,38 @@ void WiFiManager::handleiSpindel()
   _configPortalStart = millis();
 
   String page = FPSTR(HTTP_HEADER);
-  page.replace("{v}", "Info");
+  page.replace("{v}", "Informacje");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
   page += F("<META HTTP-EQUIV='refresh' CONTENT='2'>");
   page += FPSTR(HTTP_HEADER_END);
-  page += F("<h1>Info</h1><hr>");
+  page += F("<h1>Informacje</h1><hr>");
   page += F("<h2><table>");
-  page += F("<tr><td>Tilt:</td><td>");
+  page += F("<tr><td>Nachylenie:</td><td>");
   page += Tilt;
   page += F("&deg;</td></tr>");
-  page += F("<tr><td>Temperature:</td><td>");
+  page += F("<tr><td>Temperatura:</td><td>");
   page += scaleTemperatureFromC(Temperatur, myData.tempscale);
   page += F("&deg;");
   page += tempScaleLabel(myData.tempscale);
   page += F("</td></tr>");
-  page += F("<tr><td>Battery:</td><td>");
+  page += F("<tr><td>Bateria:</td><td>");
   page += Volt;
   page += F("V</td></tr>");
-  page += F("<tr><td>Gravity:</td><td>");
+  page += F("<tr><td>Gęstość:</td><td>");
   page += String(Gravity, 3);
   page += F("</td></tr>");
   page += F("</table></h2>");
   page += F("<hr><dl>");
   page += F("<dt><h3>Firmware</h3></dt>");
-  page += F("<dd>Version: ");
+  page += F("<dd>Wersja: ");
   page += FIRMWAREVERSION;
-  page += F("</dd>");
-  page += F("<dd>Date: ");
+  page += F(" - Spolszczony interfejs</dd>");
+  page += F("<dd>Data: ");
   page += __DATE__ " " __TIME__;
   page +=
-      F("</dd></dl><br>Firmware update:<br><a href='https://github.com/universam1'>github.com/universam1</a><hr>");
+      F("</dd></dl><br>Aktualizacja firmware:<br><a href='https://github.com/elroyski/ispindle_custom_firmware'>github.com/elroyski/ispindle_custom_firmware</a> - spolszczona wersja<br><a href='https://github.com/universam1'>github.com/universam1</a> - oryginalna wersja<hr>");
   page += F("</dl>");
   page += FPSTR(HTTP_END);
 
@@ -1016,36 +1016,36 @@ void WiFiManager::handleMnt()
   // we reset the timeout
   _configPortalStart = millis();
   String page = FPSTR(HTTP_HEADER);
-  page.replace("{v}", "Maintenance");
+  page.replace("{v}", "Konserwacja");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += FPSTR(HTTP_HEADER_END);
-  page += F("<h2>Offset Calibration</h2><br>Before proceeding with calibration make sure the iSpindel is leveled flat, "
-            "exactly at 0&deg; horizontally and vertically, according to this picture:<br>");
+  page += F("<h2>Kalibracja przechyłu</h2><br>Przed przystąpieniem do kalibracji upewnij się, że iSpindel jest wypoziomowany, "
+            "dokładnie na 0&deg; w poziomie i pionie, zgodnie z tym obrazkiem:<br>");
   page += FPSTR(HTTP_ISPINDEL_IMG);
-  page += F("<br><form action='/offset' method='get'><button class='btn'>calibrate</button></form><br/>");
-  page += F("<hr><h2>Firmware Update</h2><br>Firmware updates:<br><a "
-            "href='https://github.com/universam1'>github.com/universam1</a>");
-  page += F("Current Firmware installed:<br><dl>");
-  page += F("<dd>Version: ");
+  page += F("<br><form action='/offset' method='get'><button class='btn'>Kalibruj</button></form><br/>");
+  page += F("<hr><h2>Aktualizacja firmware</h2><br>Aktualizacje firmware:<br><a "
+            "href='https://github.com/elroyski/ispindle_custom_firmware'>github.com/elroyski/ispindle_custom_firmware</a> - spolszczona wersja<br><a href='https://github.com/universam1'>github.com/universam1</a> - oryginalna wersja");
+  page += F("<br>Aktualnie zainstalowany firmware:<br><dl>");
+  page += F("<dd>Wersja: ");
   page += FIRMWAREVERSION;
-  page += F("</dd>");
-  page += F("<dd>Date: ");
+  page += F(" - Spolszczony interfejs</dd>");
+  page += F("<dd>Data: ");
   page += __DATE__ " " __TIME__;
   page += F("</dd></dl><br>");
   page += F("<form method='POST' action='/update' enctype='multipart/form-data'>"
             "<input type='file' name='update'><br>"
-            "<input type='submit' class='btn' value='update'></form>");
+            "<input type='submit' class='btn' value='Aktualizuj'></form>");
 
-  page += F("<hr><h2>Factory Reset</h2><br>All settings will be removed");
-  page += F("<br><form action='/reset' method='get'><button class='btn'>factory reset</button></form><br/>");
+  page += F("<hr><h2>Przywrócenie ustawień fabrycznych</h2><br>Wszystkie ustawienia zostaną usunięte");
+  page += F("<br><form action='/reset' method='get'><button class='btn'>Reset fabryczny</button></form><br/>");
 
-  page += F("<hr><h2>Calibrate Battery Voltage</h2><br>"
-            "Measure current Battery voltage to calculate the conversion factor<br><dl>");
+  page += F("<hr><h2>Kalibracja napięcia baterii</h2><br>"
+            "Zmierz aktualne napięcie baterii, aby obliczyć współczynnik konwersji<br><dl>");
   page += F("<form method='POST' action='/calibrateVref'>"
             "<div style='display:flex justify-content: flex-end, center, space-between, space-around'>"
-            "currently:<input type=number step=0.01 min=2.50 max=4.30 value=3.70 name='Vref'>Volt</div><br>"
-            "<input type='submit' class='btn' value='set voltage'></form>");
+            "Obecnie:<input type=number step=0.01 min=2.50 max=4.30 value=3.70 name='Vref'>Volt</div><br>"
+            "<input type='submit' class='btn' value='Ustaw napięcie'></form>");
   page += FPSTR(HTTP_END);
 
   server->send(200, "text/html", page);
@@ -1066,17 +1066,17 @@ void WiFiManager::handleOffset()
   header();
 
   String page = FPSTR(HTTP_HEADER);
-  page.replace("{v}", "calibrate Offset");
+  page.replace("{v}", "Kalibracja przechyłu");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
 
   page += FPSTR(HTTP_HEADER_END);
   page += F("<META HTTP-EQUIV='refresh' CONTENT='6;url=/iSpindel'> \
-  <h1>calibrate Offset</h1><hr> \
+  <h1>Kalibracja przechyłu</h1><hr> \
   <table><tr><td> \
-  ...calibration in progress...<br><h2>DO NOT MOVE OR SHAKE!</h2><br> \
-  It takes a few seconds to complete. Once complete the blue LED will switch from continous to blinking \
+  ...kalibracja w toku...<br><h2>NIE RUSZAJ ANI NIE POTRZĄSAJ!</h2><br> \
+  Procedura zajmuje kilka sekund. Po zakończeniu niebieska dioda LED zmieni się z ciągłej na migającą \
   </td></tr></table>");
 
   page += FPSTR(HTTP_END);
