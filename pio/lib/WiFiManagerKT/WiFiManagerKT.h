@@ -36,7 +36,7 @@ const char HTTP_ISPINDEL_IMG[] PROGMEM = "<img src=\"data:image/jpeg;base64,/9j/
 const char HTTP_200[] PROGMEM = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
 const char HTTP_HEADER[] PROGMEM = "<!DOCTYPE html><html lang=\"en\"><head><meta name=\"viewport\" charset=\"utf-8\" content=\"width=device-width, initial-scale=1, user-scalable=no\"/><title>{v}</title>";
 
-const char HTTP_STYLE[] PROGMEM = "<style>body,textarea,input,select{background: 0;border-radius: 0;font: 16px sans-serif;margin: 0}textarea,input,select{outline: 0;font-size: 14px;border: 1px solid #ccc;padding: 8px;width: 90%}.btn a{text-decoration: none}.container{margin: auto;width: 90%}@media(min-width:1200px){.container{margin: auto;width: 30%}}@media(min-width:768px) and (max-width:1200px){.container{margin: auto;width: 50%}}.btn,h2{font-size: 2em}h1{font-size: 3em}.btn{background: #0ae;border-radius: 4px;border: 0;color: #fff;cursor: pointer;display: inline-block;margin: 2px 0;padding: 10px 14px 11px;width: 100%}.btn:hover{background: #09d}.btn:active,.btn:focus{background: #08b}label>*{display: inline}form>*{display: block;margin-bottom: 10px}textarea:focus,input:focus,select:focus{border-color: #5ab}.msg{background: #def;border-left: 5px solid #59d;padding: 1.5em}.q{float: right;width: 64px;text-align: right}.l{background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAALVBMVEX///8EBwfBwsLw8PAzNjaCg4NTVVUjJiZDRUUUFxdiZGSho6OSk5Pg4eFydHTCjaf3AAAAZElEQVQ4je2NSw7AIAhEBamKn97/uMXEGBvozkWb9C2Zx4xzWykBhFAeYp9gkLyZE0zIMno9n4g19hmdY39scwqVkOXaxph0ZCXQcqxSpgQpONa59wkRDOL93eAXvimwlbPbwwVAegLS1HGfZAAAAABJRU5ErkJggg==') no-repeat left center;background-size: 1em}input[type='checkbox']{width: 20px}.table td{padding:.5em;text-align:left}.table tbody>:nth-child(2n-1){background:#ddd}</style>";
+const char HTTP_STYLE[] PROGMEM = "<style>body,textarea,input,select{background:#f5f5f5;font-family:'Roboto',Arial,sans-serif;margin:0;font-size:16px}textarea,input,select{outline:0;border:none;border-bottom:1px solid #ddd;padding:10px 0;width:90%;background:0;color:#444;font-size:15px;transition:all .3s}.btn a{text-decoration:none}.container{margin:auto;width:90%;background:#fff;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);border-radius:2px}@media(min-width:1200px){.container{margin:auto;width:30%}}@media(min-width:768px) and (max-width:1200px){.container{margin:auto;width:50%}}h1,h2{text-align:center;color:#444;font-weight:400}.btn{background:#2196F3;color:#fff;cursor:pointer;display:inline-block;margin:0;padding:12px 15px;width:100%;border:none;border-radius:2px;font-size:16px;text-transform:uppercase;transition:all .2s}.btn:hover{background:#1E88E5;box-shadow:0 1px 3px rgba(0,0,0,.1)}.btn:active,.btn:focus{background:#1976D2}label>*{display:inline}form>*{display:block;margin-bottom:20px}textarea:focus,input:focus,select:focus{border-bottom:1px solid #2196F3}.msg{background:#E3F2FD;padding:15px;border-left:4px solid #2196F3}.q{float:right;width:64px;text-align:right}body{padding:20px}.table td{padding:.5em;text-align:left}.table tbody>:nth-child(2n-1){background:#F5F5F5}</style>";
 
 const char HTTP_SCRIPT[] PROGMEM = R"V0G0N(
 <script>
@@ -108,9 +108,9 @@ const char HTTP_API_LIST[] PROGMEM = R"V0G0N(
 
 const char HTTP_TEMPSCALE_LIST[] PROGMEM = R"V0G0N(
 <select id="TS" onclick="sTS()">
-<option value=0>Celsius</option>
+<option value=0>Celsjusz</option>
 <option value=1>Fahrenheit</option>
-<option value=2>Kelvin</option>
+<option value=2>Kelwin</option>
 </select>)V0G0N";
 
 const char TYPE_HIDDEN[] = "type=\"hidden\"";
@@ -119,21 +119,20 @@ const char TYPE_CHECKBOX[] = "type=\"checkbox\"";
 const char TYPE_CHECKBOX_CHECKED[] = "type=\"checkbox\" checked";
 
 const char HTTP_HEADER_END[] PROGMEM = "</head><body><div class=\"container\">";
-const char HTTP_PORTAL_OPTIONS[] PROGMEM = "<form action=\"/iSpindel\" method=\"get\"><button class=\"btn\">iSpindel Info</button></form><br/><form action=\"/wifi\" method=\"get\"><button class=\"btn\">Configuration</button></form><br/><form action=\"/mnt\" method=\"get\"><button class=\"btn\">Maintenance</button></form><br/><form action=\"/i\" method=\"get\"><button class=\"btn\">Information</button></form><br/><form action=\"/close\" method=\"get\"><button class=\"btn\">Exit Portal</button></form><br/>";
+const char HTTP_PORTAL_OPTIONS[] PROGMEM = "<form action=\"/iSpindel\" method=\"get\"><button class=\"btn\">Informacje iSpindel</button></form><br/><form action=\"/wifi\" method=\"get\"><button class=\"btn\">Konfiguracja</button></form><br/><form action=\"/mnt\" method=\"get\"><button class=\"btn\">Konserwacja</button></form><br/><form action=\"/i\" method=\"get\"><button class=\"btn\">Informacje</button></form><br/><form action=\"/close\" method=\"get\"><button class=\"btn\">Wyjście</button></form><br/>";
 const char HTTP_ITEM[] PROGMEM = "<div><a href=\"#p\" onclick=\"c(this)\">{v}</a>&nbsp;<span class=\"q {i}\">{r}%</span></div>";
 const char JSON_ITEM[] PROGMEM = "{\"SSID\":\"{v}\", \"Encryption\":{i}, \"Quality\":\"{r}\"}";
-// const char HTTP_FORM_START[] PROGMEM = "<form method=\"get\" action=\"wifisave\"><label>SSID</label><input id=\"s\" name=\"s\" length=32 placeholder=\"SSID\"><label>Password</label><input id=\"p\" name=\"p\" length=64 placeholder=\"password\">";
-const char HTTP_FORM_START1[] PROGMEM = "<form method=\"get\" action=\"wifisave\"><label>SSID</label><input id=\"s\" name=\"s\" length=32 placeholder=\"SSID\" value=\"";
-const char HTTP_FORM_START2[] PROGMEM = "\"><label>Password</label><input id=\"p\" name=\"p\" type=\"password\" length=64 placeholder=\"password\" value=\"";
+const char HTTP_FORM_START1[] PROGMEM = "<form method=\"get\" action=\"wifisave\"><label>Nazwa sieci</label><input id=\"s\" name=\"s\" length=32 placeholder=\"SSID\" value=\"";
+const char HTTP_FORM_START2[] PROGMEM = "\"><label>Hasło</label><input id=\"p\" name=\"p\" type=\"password\" length=64 placeholder=\"hasło\" value=\"";
 const char HTTP_FORM_START3[] PROGMEM = "\">";
 
 const char HTTP_FORM_LABEL[] PROGMEM = "<label for=\"{i}\">{p}</label>";
 const char HTTP_FORM_PARAM[] PROGMEM = "<input id=\"{i}\" name=\"{n}\" length={l} placeholder=\"{p}\" value=\"{v}\" {c}>";
-const char HTTP_FORM_END[] PROGMEM = "<button class=\"btn\" type=\"submit\">save</button></form>";
-const char HTTP_SAVED[] PROGMEM = "<div class=\"msg\"><strong>Credentials Saved</strong><br>Trying to connect ESP to the {x} network.<br>Give it 10 seconds or so and check <a href=\"/\">how it went.</a> <p/>The {v} you are connected to will be restarted on the radio channel of the {x} network and continue in normal mode thus not being accessible until manually resetted to configuration mode.";
+const char HTTP_FORM_END[] PROGMEM = "<button class=\"btn\" type=\"submit\">Zapisz</button></form>";
+const char HTTP_SAVED[] PROGMEM = "<div class=\"msg\"><strong>Dane zapisane</strong><br>Próba połączenia ESP z siecią {x}.<br>Poczekaj około 10 sekund i sprawdź <a href=\"/\">czy się udało.</a> <p/>{v} z którym obecnie jesteś połączony zostanie uruchomiony ponownie na kanale radiowym sieci {x} i będzie działał w normalnym trybie, więc nie będzie dostępny do momentu ręcznego przełączenia w tryb konfiguracji.";
 const char HTTP_END[] PROGMEM = "</div></body></html>";
-const char HTTP_UPDATE_FAI[] PROGMEM = "Update Failed!";
-const char HTTP_UPDATE_SUC[] PROGMEM = "Update Success! Rebooting...";
+const char HTTP_UPDATE_FAI[] PROGMEM = "Aktualizacja nieudana!";
+const char HTTP_UPDATE_SUC[] PROGMEM = "Aktualizacja udana! Restartuję...";
 
 #define WIFI_MANAGER_MAX_PARAMS 25
 
