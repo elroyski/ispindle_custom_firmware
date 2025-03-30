@@ -245,7 +245,7 @@ void WiFiManager::handleUpdating()
   else if (upload.status == UPLOAD_FILE_ABORTED)
   {
     Update.end();
-    CONSOLELN("Update was aborted");
+    CONSOLE("Update was aborted");
   }
   delay(0);
 }
@@ -645,16 +645,16 @@ void WiFiManager::handleWifi()
 {
   header();
   String page = FPSTR(HTTP_HEADER);
-  page.replace("{v}", "Config ESP");
+  page.replace("{v}", "Konfiguracja ESP");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
   page += FPSTR(HTTP_HEADER_END);
-  page += F("<h2>Configuration</h2>");
+  page += F("<h2>Konfiguracja</h2>");
   //Print list of WiFi networks that were found in earlier scan
   if (numberOfNetworks == 0)
   {
-    page += F("WiFi scan found no networks. Restart configuration portal to scan again.");
+    page += F("Nie znaleziono sieci WiFi. Uruchom ponownie portal konfiguracyjny, aby przeskanować ponownie.");
   }
   else
   {
@@ -1401,3 +1401,25 @@ String WiFiManager::toStringIp(IPAddress ip)
   res += String(((ip >> 8 * 3)) & 0xFF);
   return res;
 }
+
+// HTTP_FORM_PARAM and HTTP_FORM_END must be in HTML for initial configuration of wifi.
+// Make small enough to work with 512 byte String limit of original ESP8266 SDK
+const char HTTP_FORM_LABEL[] PROGMEM = "<label for=\"{i}\">{p}</label>";
+const char HTTP_FORM_PARAM[] PROGMEM = "<input id=\"{i}\" name=\"{n}\" maxlength={l} placeholder=\"{p}\" value=\"{v}\" {c}>";
+const char HTTP_FORM_START1[] PROGMEM = "<form method=\"post\" action=\"wifisave\"><label>Nazwa sieci WiFi</label>";
+const char HTTP_FORM_START2[] PROGMEM = "<br/><label>Hasło do sieci</label>";
+const char HTTP_FORM_START3[] PROGMEM = "<br/>";
+const char HTTP_FORM_END[] PROGMEM = "<br/><br/><button type=\"submit\">Zapisz</button></form>";
+
+const char HTTP_SCAN_LINK[] PROGMEM = "<br/><div class=\"c\"><a href=\"/wifi\">Skanuj</a></div>";
+const char HTTP_SAVED[] PROGMEM = "<div>Dane zapisane<br/>Próba połączenia iSpindel z siecią.<br/>Jeśli nie uda się połączyć, połącz się ponownie z siecią AP do konfiguracji</div>";
+const char HTTP_END[] PROGMEM = "</div></body></html>";
+
+// const char HTTP_STATUS_ON[] PROGMEM = "<div class=\"msg\"><strong>Połączono</strong> z {v}<br/><br/><a href=\"/wifi\">Konfiguracja</a> połączenia WiFi lub <a href=\"/i\">Informacje</a></div>";
+// const char HTTP_STATUS_OFF[] PROGMEM = "<div class=\"msg\"><strong>Brak połączenia</strong> z {v}<br/><br/><a href=\"/wifi\">Konfiguracja</a> połączenia WiFi</div>";
+const char HTTP_STATUS_ON[] PROGMEM = "<div class=\"msg\"><strong>Połączono</strong> z {v}</div>";
+const char HTTP_STATUS_OFF[] PROGMEM = "<div class=\"msg\"><strong>Brak połączenia</strong> z {v}</div>";
+
+const char HTTP_PORTAL_OPTIONS[] PROGMEM = "<br/><br/><div class=\"liste\"><a href=\"/wifi\">Konfiguracja WiFi</a><br/><a href=\"/i\">Informacje</a><br/><a href=\"/r\">Resetuj</a><br/><a href=\"/s\">iSpindel Info</a><br/><a href=\"/c\">Konfiguracja</a><br/></div>";
+
+const char HTTP_ITEM[] PROGMEM = "<div><a href=\"#\" onclick=\"document.getElementById('s').value='{v}'\">{v}</a> {r}% {i}</div>";
