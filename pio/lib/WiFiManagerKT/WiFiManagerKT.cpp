@@ -245,7 +245,7 @@ void WiFiManager::handleUpdating()
   else if (upload.status == UPLOAD_FILE_ABORTED)
   {
     Update.end();
-    CONSOLELN("Update was aborted");
+    CONSOLE("Update was aborted");
   }
   delay(0);
 }
@@ -976,18 +976,18 @@ void WiFiManager::handleiSpindel()
   page += FPSTR(HTTP_HEADER_END);
   page += F("<h1>Informacje</h1><hr>");
   page += F("<h2><table>");
-  page += F("<tr><td>Nachylenie:</td><td>");
+  page += F("<tr><td><strong>Nachylenie:</strong></td><td>");
   page += Tilt;
   page += F("&deg;</td></tr>");
-  page += F("<tr><td>Temperatura:</td><td>");
+  page += F("<tr><td><strong>Temperatura:</strong></td><td>");
   page += scaleTemperatureFromC(Temperatur, myData.tempscale);
   page += F("&deg;");
   page += tempScaleLabel(myData.tempscale);
   page += F("</td></tr>");
-  page += F("<tr><td>Bateria:</td><td>");
+  page += F("<tr><td><strong>Bateria:</strong></td><td>");
   page += Volt;
   page += F("V</td></tr>");
-  page += F("<tr><td>Gęstość:</td><td>");
+  page += F("<tr><td><strong>Gęstość:</strong></td><td>");
   page += String(Gravity, 3);
   page += F("</td></tr>");
   page += F("</table></h2>");
@@ -999,7 +999,7 @@ void WiFiManager::handleiSpindel()
   page += F("<dd>Data: ");
   page += __DATE__ " " __TIME__;
   page +=
-      F("</dd></dl><br>Aktualizacja firmware:<br><a href='https://github.com/elroyski/ispindle_custom_firmware'>github.com/elroyski/ispindle_custom_firmware</a> - spolszczona wersja<br><a href='https://github.com/universam1'>github.com/universam1</a> - oryginalna wersja<hr>");
+      F("</dd></dl><br>Aktualizacja firmware:<br><a href='https://github.com/elroyski/ispindle_custom_firmware'>github.com/elroyski/ispindle_custom_firmware</a> - wersja piwo.org<br><a href='https://github.com/universam1'>github.com/universam1</a> - oryginalna wersja<hr>");
   page += F("</dl>");
   page += FPSTR(HTTP_END);
 
@@ -1025,11 +1025,11 @@ void WiFiManager::handleMnt()
   page += FPSTR(HTTP_ISPINDEL_IMG);
   page += F("<br><form action='/offset' method='get'><button class='btn'>Kalibruj</button></form><br/>");
   page += F("<hr><h2>Aktualizacja firmware</h2><br>Aktualizacje firmware:<br><a "
-            "href='https://github.com/elroyski/ispindle_custom_firmware'>github.com/elroyski/ispindle_custom_firmware</a> - spolszczona wersja<br><a href='https://github.com/universam1'>github.com/universam1</a> - oryginalna wersja");
+            "href='https://github.com/elroyski/ispindle_custom_firmware'>github.com/elroyski/ispindle_custom_firmware</a> - wersja piwo.org<br><a href='https://github.com/universam1'>github.com/universam1</a> - oryginalna wersja");
   page += F("<br>Aktualnie zainstalowany firmware:<br><dl>");
   page += F("<dd>Wersja: ");
   page += FIRMWAREVERSION;
-  page += F(" - Spolszczony interfejs</dd>");
+  page += F(" - wersja piwo.org</dd>");
   page += F("<dd>Data: ");
   page += __DATE__ " " __TIME__;
   page += F("</dd></dl><br>");
