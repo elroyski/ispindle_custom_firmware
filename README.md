@@ -25,11 +25,11 @@ Projekt jest oparty na oryginalnym iSpindel stworzonym przez universam1, do któ
 
 ## Gdzie znaleźć wersję skompilowaną?
 
-Skompilowaną wersję firmware można znaleźć w zakładce [Releases](https://github.com/tomekjarosik/ispindle_custom_firmware/releases) tego repozytorium. Wystarczy pobrać plik `.bin` i wgrać go na swoje urządzenie.
+Skompilowaną wersję firmware można znaleźć w zakładce [Releases](https://github.com/elroyski/ispindle_custom_firmware/releases) tego repozytorium. Wystarczy pobrać plik `.bin` i wgrać go na swoje urządzenie.
 
 ## Jak wgrać firmware?
 
-1. Pobierz najnowszą wersję firmware z [zakładki Releases](https://github.com/tomekjarosik/ispindle_custom_firmware/releases)
+1. Pobierz najnowszą wersję firmware z [zakładki Releases](https://github.com/elroyski/ispindle_custom_firmware/releases)
 2. Podłącz iSpindel do komputera przez USB
 3. W przeglądarce otwórz adres `http://192.168.4.1` (po podłączeniu iSpindel do zasilania)
 4. Wybierz opcję "Konserwacja"
