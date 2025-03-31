@@ -645,16 +645,16 @@ void WiFiManager::handleWifi()
 {
   header();
   String page = FPSTR(HTTP_HEADER);
-  page.replace("{v}", "Config ESP");
+  page.replace("{v}", "Konfiguracja ESP");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
   page += FPSTR(HTTP_HEADER_END);
-  page += F("<h2>Configuration</h2>");
+  page += F("<h2>Konfiguracja</h2>");
   //Print list of WiFi networks that were found in earlier scan
   if (numberOfNetworks == 0)
   {
-    page += F("WiFi scan found no networks. Restart configuration portal to scan again.");
+    page += F("Nie znaleziono sieci WiFi. Uruchom ponownie portal konfiguracyjny, aby przeskanować ponownie.");
   }
   else
   {
@@ -750,7 +750,7 @@ void WiFiManager::handleWifi()
     String item = FPSTR(HTTP_FORM_PARAM);
     item.replace("{i}", "ip");
     item.replace("{n}", "ip");
-    item.replace("{p}", "Static IP");
+    item.replace("{p}", "Statyczny adres IP");
     item.replace("{l}", "15");
     item.replace("{v}", _sta_static_ip.toString());
 
@@ -759,7 +759,7 @@ void WiFiManager::handleWifi()
     item = FPSTR(HTTP_FORM_PARAM);
     item.replace("{i}", "gw");
     item.replace("{n}", "gw");
-    item.replace("{p}", "Static Gateway");
+    item.replace("{p}", "Brama domyślna");
     item.replace("{l}", "15");
     item.replace("{v}", _sta_static_gw.toString());
 
@@ -768,7 +768,7 @@ void WiFiManager::handleWifi()
     item = FPSTR(HTTP_FORM_PARAM);
     item.replace("{i}", "sn");
     item.replace("{n}", "sn");
-    item.replace("{p}", "Subnet");
+    item.replace("{p}", "Maska podsieci");
     item.replace("{l}", "15");
     item.replace("{v}", _sta_static_sn.toString());
 

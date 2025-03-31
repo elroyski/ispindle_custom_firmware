@@ -123,13 +123,13 @@ const char HTTP_PORTAL_OPTIONS[] PROGMEM = "<form action=\"/iSpindel\" method=\"
 const char HTTP_ITEM[] PROGMEM = "<div><a href=\"#p\" onclick=\"c(this)\">{v}</a>&nbsp;<span class=\"q {i}\">{r}%</span></div>";
 const char JSON_ITEM[] PROGMEM = "{\"SSID\":\"{v}\", \"Encryption\":{i}, \"Quality\":\"{r}\"}";
 // const char HTTP_FORM_START[] PROGMEM = "<form method=\"get\" action=\"wifisave\"><label>SSID</label><input id=\"s\" name=\"s\" length=32 placeholder=\"SSID\"><label>Password</label><input id=\"p\" name=\"p\" length=64 placeholder=\"password\">";
-const char HTTP_FORM_START1[] PROGMEM = "<form method=\"get\" action=\"wifisave\"><label>SSID</label><input id=\"s\" name=\"s\" length=32 placeholder=\"SSID\" value=\"";
-const char HTTP_FORM_START2[] PROGMEM = "\"><label>Password</label><input id=\"p\" name=\"p\" type=\"password\" length=64 placeholder=\"password\" value=\"";
+const char HTTP_FORM_START1[] PROGMEM = "<form method=\"get\" action=\"wifisave\"><label>Nazwa sieci WiFi</label><input id=\"s\" name=\"s\" length=32 placeholder=\"Nazwa sieci\" value=\"";
+const char HTTP_FORM_START2[] PROGMEM = "\"><label>Hasło</label><input id=\"p\" name=\"p\" type=\"password\" length=64 placeholder=\"hasło\" value=\"";
 const char HTTP_FORM_START3[] PROGMEM = "\">";
 
 const char HTTP_FORM_LABEL[] PROGMEM = "<label for=\"{i}\">{p}</label>";
 const char HTTP_FORM_PARAM[] PROGMEM = "<input id=\"{i}\" name=\"{n}\" length={l} placeholder=\"{p}\" value=\"{v}\" {c}>";
-const char HTTP_FORM_END[] PROGMEM = "<button class=\"btn\" type=\"submit\">zapisz</button></form>";
+const char HTTP_FORM_END[] PROGMEM = "<button class=\"btn\" type=\"submit\">Zapisz</button></form>";
 const char HTTP_SAVED[] PROGMEM = "<div class=\"msg\"><strong>Dane zapisane</strong><br>Próbuję połączyć ESP z siecią {x}.<br>Daj mi około 10 sekund i sprawdź <a href=\"/\">jak poszło.</a> <p/>Sieć {v}, z którą jesteś połączony zostanie zrestartowana na kanale radiowym sieci {x} i będzie kontynuować pracę w trybie normalnym, więc nie będzie dostępna, dopóki nie zostanie ręcznie zresetowana do trybu konfiguracji.";
 const char HTTP_END[] PROGMEM = "</div></body></html>";
 const char HTTP_UPDATE_FAI[] PROGMEM = "Aktualizacja nieudana!";
