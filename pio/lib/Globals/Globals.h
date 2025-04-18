@@ -32,8 +32,7 @@ extern Ticker flasher;
 #define API_THINGSPEAK true
 #define API_BLYNK true
 #define API_BREWBLOX true
-#define API_MQTT_HASSIO true
-#define API_AWSIOTMQTT true //AWS
+#define API_MQTT_HASSIO true //AWS
 #define API_BRICKS true
 
 //#define BLYNK_DEBUG
@@ -64,7 +63,7 @@ extern Ticker flasher;
 
 #define PORTALTIMEOUT 300
 
-#define ADCDIVISOR 191.8
+#define ADCDIVISOR 244.39
 #define ONE_WIRE_BUS D6 // DS18B20 on ESP pin12
 #define OW_PINS                                                                                                        \
   (const uint8_t[])                                                                                                    \
