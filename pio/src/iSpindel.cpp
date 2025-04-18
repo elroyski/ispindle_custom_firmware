@@ -160,10 +160,10 @@ bool readConfig()
             myData.channel = doc["Channel"];
           if (doc.containsKey("URI"))
             strcpy(myData.uri, doc["URI"]);
-          if (doc.containsKey("Username"))
-            strcpy(myData.username, doc["Username"]);
-          if (doc.containsKey("Password"))
-            strcpy(myData.password, doc["Password"]);
+          if (doc.containsKey("Nazwa użytkownika"))
+            strcpy(myData.username, doc["Nazwa użytkownika"]);
+          if (doc.containsKey("Hasło"))
+            strcpy(myData.password, doc["Hasło"]);
           if (doc.containsKey("Job"))
             strcpy(myData.job, doc["Job"]);
           if (doc.containsKey("Instance"))
@@ -322,43 +322,42 @@ bool startConfiguration()
   WiFiManagerParameter api_list(HTTP_API_LIST);
   WiFiManagerParameter custom_api("selAPI", "selAPI", String(myData.api).c_str(), 20, TYPE_HIDDEN, WFM_NO_LABEL);
 
-  WiFiManagerParameter custom_name("name", "iSpindel Name", htmlencode(myData.name).c_str(), TKIDSIZE);
-  WiFiManagerParameter custom_sleep("sleep", "Update Interval (s)", String(myData.sleeptime).c_str(), 6, TYPE_NUMBER);
-  WiFiManagerParameter custom_token("token", "Token/ API key", htmlencode(myData.token).c_str(), TKIDSIZE * 2);
-  WiFiManagerParameter custom_server("server", "Server Address", myData.server, DNSSIZE);
-  WiFiManagerParameter custom_port("port", "Server Port", String(myData.port).c_str(), TKIDSIZE, TYPE_NUMBER);
-  WiFiManagerParameter custom_channel("channel", "Channelnumber", String(myData.channel).c_str(), TKIDSIZE,
+  WiFiManagerParameter custom_name("name", "Nazwa iSpindel", htmlencode(myData.name).c_str(), TKIDSIZE);
+  WiFiManagerParameter custom_sleep("sleep", "Interwał aktualizacji (s)", String(myData.sleeptime).c_str(), 6, TYPE_NUMBER);
+  WiFiManagerParameter custom_token("token", "Token/ Klucz API", htmlencode(myData.token).c_str(), TKIDSIZE * 2);
+  WiFiManagerParameter custom_server("server", "Adres serwera", myData.server, DNSSIZE);
+  WiFiManagerParameter custom_port("port", "Port serwera", String(myData.port).c_str(), TKIDSIZE, TYPE_NUMBER);
+  WiFiManagerParameter custom_channel("channel", "Numer kanału", String(myData.channel).c_str(), TKIDSIZE,
                                       TYPE_NUMBER);
-  WiFiManagerParameter custom_uri("uri", "Path / URI", myData.uri, DNSSIZE);
-  WiFiManagerParameter custom_username("username", "Username", myData.username, TKIDSIZE);
-  WiFiManagerParameter custom_password("password", "Password", myData.password, DNSSIZE);
-  WiFiManagerParameter custom_job("job", "Prometheus job", myData.job, TKIDSIZE);
-  WiFiManagerParameter custom_instance("instance", "Prometheus instance", myData.instance, TKIDSIZE);
+  WiFiManagerParameter custom_uri("uri", "Ścieżka / URI", myData.uri, DNSSIZE);
+  WiFiManagerParameter custom_username("username", "Nazwa użytkownika", myData.username, TKIDSIZE);
+  WiFiManagerParameter custom_password("password", "Hasło", myData.password, DNSSIZE);
+  WiFiManagerParameter custom_job("job", "Zadanie Prometheus", myData.job, TKIDSIZE);
+  WiFiManagerParameter custom_instance("instance", "Instancja Prometheus", myData.instance, TKIDSIZE);
 #if API_MQTT_HASSIO
-  WiFiManagerParameter custom_hassio("hassio", "Home Assistant integration via MQTT", "checked", TKIDSIZE,
+  WiFiManagerParameter custom_hassio("hassio", "Integracja z Home Assistant przez MQTT", "checked", TKIDSIZE,
                                      myData.hassio ? TYPE_CHECKBOX_CHECKED : TYPE_CHECKBOX);
 #endif
-  WiFiManagerParameter custom_usehttps("usehttps", "Connect to server via HTTPS", "checked", TKIDSIZE,
+  WiFiManagerParameter custom_usehttps("usehttps", "Połącz z serwerem przez HTTPS", "checked", TKIDSIZE,
                                        myData.usehttps ? TYPE_CHECKBOX_CHECKED : TYPE_CHECKBOX);
-  WiFiManagerParameter custom_vfact("vfact", "Battery conversion factor", String(myData.vfact).c_str(), 7, TYPE_NUMBER);
+  WiFiManagerParameter custom_vfact("vfact", "Współczynnik konwersji baterii", String(myData.vfact).c_str(), 7, TYPE_NUMBER);
   WiFiManagerParameter tempscale_list(HTTP_TEMPSCALE_LIST);
   WiFiManagerParameter custom_tempscale("tempscale", "tempscale", String(myData.tempscale).c_str(), 5, TYPE_HIDDEN,
                                         WFM_NO_LABEL);
   WiFiManagerParameter custom_warning1(
       "warning1",
-      "WARNING! Secure MQTT has a big impact on battery usage.<BR>&nbsp;<BR>For AWS:<UL><LI>Name must be "
-      "Thingname</LI><LI>Server must be Endpoint</LI><LI>Port must be 8883</LI><LI>Path/URI is Publish Topic</LI></UL>",
+      "UWAGA! Bezpieczne MQTT ma duży wpływ na zużycie baterii.<BR>&nbsp;<BR>Dla AWS:<UL><LI>Nazwa musi być nazwą urządzenia</LI><LI>Serwer musi być punktem końcowym</LI><LI>Port musi być 8883</LI><LI>Ścieżka/URI to temat publikacji</LI></UL>",
       "<<<<< >>>>>", TKIDSIZE);
 
   wifiManager.addParameter(&custom_name);
   wifiManager.addParameter(&custom_sleep);
   wifiManager.addParameter(&custom_vfact);
 
-  WiFiManagerParameter custom_tempscale_hint("<label for=\"TS\">Unit of temperature</label>");
+  WiFiManagerParameter custom_tempscale_hint("<label for=\"TS\">Jednostka temperatury</label>");
   wifiManager.addParameter(&custom_tempscale_hint);
   wifiManager.addParameter(&tempscale_list);
   wifiManager.addParameter(&custom_tempscale);
-  WiFiManagerParameter custom_api_hint("<hr><label for=\"API\">Service Type</label>");
+  WiFiManagerParameter custom_api_hint("<hr><label for=\"API\">Typ usługi</label>");
   wifiManager.addParameter(&custom_api_hint);
 
   wifiManager.addParameter(&api_list);
@@ -379,7 +378,7 @@ bool startConfiguration()
 #endif
   wifiManager.addParameter(&custom_usehttps);
   WiFiManagerParameter custom_polynom_lbl(
-      "<hr><label for=\"POLYN\">Gravity conversion<br/>ex. \"-0.00031*tilt^2+0.557*tilt-14.054\"</label>");
+      "<hr><label for=\"POLYN\">Konwersja gęstości<br/>np. \"-0.00031*tilt^2+0.557*tilt-14.054\"</label>");
   wifiManager.addParameter(&custom_polynom_lbl);
   WiFiManagerParameter custom_polynom("POLYN", "Polynominal", htmlencode(myData.polynominal).c_str(), 250,
                                       WFM_NO_LABEL);
@@ -509,8 +508,8 @@ bool saveConfig()
   doc["Port"] = myData.port;
   doc["Channel"] = myData.channel;
   doc["URI"] = myData.uri;
-  doc["Username"] = myData.username;
-  doc["Password"] = myData.password;
+  doc["Nazwa użytkownika"] = myData.username;
+  doc["Hasło"] = myData.password;
   doc["Job"] = myData.job;
   doc["Instance"] = myData.instance;
 #if API_MQTT_HASSIO

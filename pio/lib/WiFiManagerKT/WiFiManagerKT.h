@@ -108,9 +108,9 @@ const char HTTP_API_LIST[] PROGMEM = R"V0G0N(
 
 const char HTTP_TEMPSCALE_LIST[] PROGMEM = R"V0G0N(
 <select id="TS" onclick="sTS()">
-<option value=0>Celsius</option>
+<option value=0>Celsjusz</option>
 <option value=1>Fahrenheit</option>
-<option value=2>Kelvin</option>
+<option value=2>Kelwin</option>
 </select>)V0G0N";
 
 const char TYPE_HIDDEN[] = "type=\"hidden\"";
